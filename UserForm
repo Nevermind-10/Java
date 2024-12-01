@@ -1,0 +1,83 @@
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
+public class UserForm extends JFrame{
+	public UserForm(){
+		setTitle("User Form");
+		setSize(400,200);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JTextField uField = new JTextField(15);
+		JTextField eField = new JTextField(15);
+		JPasswordField pField = new JPasswordField(15);
+		JLabel username = new JLabel ("Username");
+		JLabel email= new JLabel ("Email");
+		JLabel password = new JLabel ("Password");
+		JButton submit = new JButton("Submit");
+		JLabel submitL = new JLabel();
+		submit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				String pass = new String(pField.getPassword());
+				String strength= strength(pass); 
+				if(strength.equals("weak")){
+					submitL.setText("Weak Password. Use another password");
+				}
+				else if(strength.equals("moderate")){
+					submitL.setText("Moderate Password. Submitted successfully");				}
+				else
+				{
+					submitL.setText("Strong Password. Submitted successfully");
+				}
+			}
+		});
+		JPanel panel = new JPanel(new GridLayout(5,5,5,5));
+		panel.add(username);
+		panel.add(uField);
+		panel.add(email);
+		panel.add(eField);
+		panel.add(password);
+		panel.add(pField);
+		panel.add(submit);
+		panel.add(submitL);
+		add(panel, "Center");	
+		add(panel);
+		setVisible(true);
+	}
+	public static String strength(String str){
+		if(str.length()<8)
+		{
+			return "weak";
+		}
+		int u = 0,l=0,sp=0, nu=0;
+		for(int i=0;i<str.length();i++)
+		{
+				if(str.charAt(i)>='a' && str.charAt(i)<='z')
+					l++;
+				else if(str.charAt(i)>='A'&& str.charAt(i)<='Z')
+					u++;
+				else if(str.charAt(i)>='0'&& str.charAt(i)<=9)
+					nu++;
+				else
+					sp++;
+		}
+		if(l>0 && u==0 && sp==0 && nu ==0)
+		{
+			return "weak";
+		}
+		else if(l>0 && u>0)
+		{
+			if(sp==0 && nu == 0)
+			{
+					return "moderate";
+			}
+			else if(sp>=0 || nu>=0)
+			{
+				return "strong";
+			}
+		}
+		return "0";
+	}	
+	public static void main(String[] args){
+		new UserForm();
+	}
+}
