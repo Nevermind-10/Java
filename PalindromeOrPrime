@@ -1,0 +1,82 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class PalindromeOrPrime extends JFrame {
+	public PalindromeOrPrime(){
+		setTitle("Palindrome or Prime");
+		setSize(400,200);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JButton palindrome = new JButton("Check if palindrome");
+		JButton prime = new JButton("Check if prime");
+		JTextField inputField = new JTextField(10);
+		JLabel label = new JLabel ("Result is displayed here");
+		JPanel panel = new JPanel();
+		panel.add(new JLabel("Enter a number here"));
+		panel.add(inputField);
+		panel.add(palindrome);
+		panel.add(prime);
+		panel.add(label);
+		add(panel, "Center");
+		//panel.setLayout(new GridLayout(3,3,10,0));
+		
+ 
+		palindrome.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String input = inputField.getText();
+				if(isPalindrome(input)){
+					label.setText(input+ " is a palindrome");
+					}
+				else
+				{
+					label.setText(input + " is not a palindrome");
+				}
+			}
+		});
+		prime.addActionListener(e -> {
+				try{
+				String input = inputField.getText();
+				int n=Integer.parseInt(input);
+				if(isPrime(n)){
+					label.setText(n+ " is Prime");
+					}
+				else
+				{
+					label.setText(n+ " is not Prime");
+				}
+			}
+			catch(NumberFormatException ex){
+				System.out.println("Incorrect format\n");
+				label.setText("Incorrect format. Enter a number \n");
+		}
+		});
+		setVisible(true);
+	}
+	public static boolean isPalindrome(String str){
+		int left=0;
+		int right=str.length()-1;
+		while(left<right){
+			if(str.charAt(left)!=str.charAt(right)){
+				return false;
+			}
+				left++;
+				right--;
+			}
+			return true;
+	}
+	public static boolean isPrime(int num){
+		if(num<2)
+			return false;
+		for(int i=2;i<=num/2;i++){
+			if(num%i==0)
+			{
+				return false;
+			}
+		}
+			return true;
+	}
+	public static void main(String[]args){
+		new PalindromeOrPrime();
+	}
+}
+	
